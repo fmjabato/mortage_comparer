@@ -5,8 +5,9 @@
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
 
-    <title>Stitch Design</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <title>MortgageApp</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Cpath d='M6 6H42L36 24L42 42H6L12 24L6 6Z' fill='%231978e5'/%3E%3C/svg%3E" />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
@@ -32,17 +33,6 @@
                         <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-OFERTAS"
                             href="offers.html">Ofertas</a>
                     </div>
-                    <button
-                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e7edf3] text-[#0e141b] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                        <div class="text-[#0e141b]" data-icon="Bell" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
-                                viewBox="0 0 256 256">
-                                <path
-                                    d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z">
-                                </path>
-                            </svg>
-                        </div>
-                    </button>
                     <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA31mtQ1FgDwaTHxxIOZYdxAwWb3tf8zoAyTaL4Gyw4BRu7SjeRtZowxKhIzvNbzgX8aCfPJpJOUTb7pyCcygLnB9Iq0ZdTeVYCGgecK-xXzl3rJB2PPH1mNKEG8qT4piMNY6KimUT_RtZo_vF1KBHW2lNhIAYb70ourrzyuTSrsO7T8To5N9uKIaqnTDWxRfjlE8XlpU1cWzO8VAQoIAPr0nLgAu9zRp7bfvLZDhLSkwxFj64RMywsEIjp7FcwnFe_BbO8FYurTZwf");'>
                     </div>
@@ -53,11 +43,28 @@
                     <div class="flex flex-wrap justify-between gap-3 p-4">
                         <p class="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">Tus
                             ofertas guardadas</p>
-                        <button
-                            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#1978e5] text-white text-sm font-bold leading-normal hover:bg-[#125bb5] transition-colors"
-                            onclick="window.location.href='create.html'">
-                            <span class="truncate">Añadir nueva oferta</span>
-                        </button>
+                        <div class="flex gap-2 items-center mb-4">
+                            <button id="exportar-db" title="Exportar base de datos"
+                                class="border-2 border-[#1978e5] text-[#1978e5] rounded-full p-2 hover:bg-[#e7edf3] transition-colors flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-width="2" d="M12 3v12m0 0-4-4m4 4 4-4M4 17h16" />
+                                </svg>
+                            </button>
+                            <label title="Importar base de datos"
+                                class="border-2 border-[#07883b] text-[#07883b] rounded-full p-2 hover:bg-green-50 transition-colors flex items-center justify-center cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-width="2" d="M12 21V9m0 12-4-4m4 4 4-4M4 7h16" />
+                                </svg>
+                                <input id="importar-db" type="file" accept="application/json" style="display:none;">
+                            </label>
+                            <button
+                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#1978e5] text-white text-sm font-bold leading-normal hover:bg-[#125bb5] transition-colors"
+                                onclick="window.location.href='create.html'">
+                                <span class="truncate">Añadir nueva oferta</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="px-4 py-3 @container">
                         <div class="overflow-x-auto">
@@ -202,6 +209,40 @@
                 document.querySelector('.MENU-OFERTAS').style.fontWeight = 'bold';
             }
         })();
+        // Funcionalidad exportar e importar base de datos
+        function exportarDB() {
+            const data = localStorage.getItem('ofertas') || '[]';
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ofertas.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        document.getElementById('exportar-db').onclick = exportarDB;
+        document.getElementById('importar-db').onchange = function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                try {
+                    const ofertas = JSON.parse(evt.target.result);
+                    if (Array.isArray(ofertas)) {
+                        localStorage.setItem('ofertas', JSON.stringify(ofertas));
+                        alert('Base de datos importada correctamente.');
+                        location.reload();
+                    } else {
+                        alert('El archivo no tiene el formato correcto.');
+                    }
+                } catch {
+                    alert('El archivo no tiene el formato correcto.');
+                }
+            };
+            reader.readAsText(file);
+        };
     </script>
 </body>
 
