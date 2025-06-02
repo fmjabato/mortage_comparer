@@ -32,6 +32,8 @@
                             href="index.html">Inicio</a>
                         <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-OFERTAS"
                             href="offers.html">Ofertas</a>
+                        <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-COMPARACION"
+                            href="comparacion.html">Comparación</a>
                     </div>
                     <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA31mtQ1FgDwaTHxxIOZYdxAwWb3tf8zoAyTaL4Gyw4BRu7SjeRtZowxKhIzvNbzgX8aCfPJpJOUTb7pyCcygLnB9Iq0ZdTeVYCGgecK-xXzl3rJB2PPH1mNKEG8qT4piMNY6KimUT_RtZo_vF1KBHW2lNhIAYb70ourrzyuTSrsO7T8To5N9uKIaqnTDWxRfjlE8XlpU1cWzO8VAQoIAPr0nLgAu9zRp7bfvLZDhLSkwxFj64RMywsEIjp7FcwnFe_BbO8FYurTZwf");'>
@@ -211,6 +213,9 @@
             } else if (path.endsWith('offers.html')) {
                 document.querySelector('.MENU-OFERTAS').style.color = '#1978e5';
                 document.querySelector('.MENU-OFERTAS').style.fontWeight = 'bold';
+            } else if (path.endsWith('comparacion.html')) {
+                document.querySelector('.MENU-COMPARACION').style.color = '#1978e5';
+                document.querySelector('.MENU-COMPARACION').style.fontWeight = 'bold';
             }
         })();
         // Funcionalidad exportar e importar base de datos

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comparación de Ofertas - MortgageApp</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none'%3E%3Cpath d='M6 6H42L36 24L42 42H6L12 24L6 6Z' fill='%231978e5'/%3E%3C/svg%3E" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-slate-50" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="layout-container flex flex-col min-h-screen">
+        <header class="flex items-center justify-between border-b border-[#e7edf3] px-10 py-3">
+            <div class="flex items-center gap-4 text-[#0e141b]">
+                <div class="size-4">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h2 class="text-[#0e141b] text-lg font-bold leading-tight tracking-[-0.015em]">MortgageApp</h2>
+            </div>
+            <div class="flex flex-1 justify-end gap-8">
+                <div class="flex items-center gap-9">
+                    <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-INICIO"
+                        href="index.html">Inicio</a>
+                    <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-OFERTAS"
+                        href="offers.html">Ofertas</a>
+                    <a class="text-[#1978e5] text-sm font-bold leading-normal MENU-COMPARACION"
+                        href="comparacion.html">Comparación</a>
+                </div>
+            </div>
+        </header>
+        <main class="flex flex-col items-center flex-1 py-8 px-4">
+            <h1 class="text-3xl font-bold mb-6">Comparación de Ofertas</h1>
+            <div class="w-full max-w-4xl mb-6 bg-white rounded-lg p-6 shadow flex flex-col gap-4">
+                <h2 class="text-lg font-bold mb-2">Amortizaciones anticipadas</h2>
+                <form id="form-amortizaciones" class="flex flex-col gap-2">
+                    <div id="amortizaciones-lista" class="flex flex-col gap-2"></div>
+                    <button type="button" id="add-amortizacion"
+                        class="self-start px-3 py-1 bg-[#e7edf3] text-[#0e141b] rounded-lg text-sm font-medium">Añadir
+                        amortización</button>
+                </form>
+            </div>
+            <div class="w-full max-w-4xl mb-10 overflow-x-auto">
+                <table class="min-w-full border border-[#d0dbe7] bg-white rounded-lg">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="px-4 py-2">Prestamista</th>
+                            <th class="px-4 py-2 text-right">Cuota mensual prorrateada (€)</th>
+                            <th class="px-4 py-2 text-right">Coste anual prorrateado (€)</th>
+                            <th class="px-4 py-2 text-right">Coste total prorrateado (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-comparacion-body">
+                        <!-- Filas generadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="tabla-amortizaciones-container" class="w-full max-w-4xl mb-10 overflow-x-auto"></div>
+            <div class="w-full max-w-4xl bg-white rounded-lg p-6 shadow">
+                <h2 class="text-xl font-bold mb-4">Evolución acumulada del coste pagado</h2>
+                <canvas id="grafica-comparacion" height="320"></canvas>
+            </div>
+        </main>
+    </div>
+    <script>
+        function cuotaMensual(importe, tin, plazoAnios) {
+            const n = plazoAnios * 12;
+            const i = tin / 100 / 12;
+            if (i === 0) return importe / n;
+            return importe * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+        }
+        function calcularCostes(oferta) {
+            const importe = parseFloat(oferta['Importe del Préstamo'] || 0);
+            const plazo = parseInt(oferta['Plazo del Préstamo (Años)'] || 0);
+            const tinBase = parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0);
+            const bonificadores = oferta.bonificadores || [];
+            const bonifMax = bonificadores.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
+            const tinMin = (tinBase - bonifMax);
+            // Cuota bonificada
+            const cuotaBonif = cuotaMensual(importe, tinMin, plazo);
+            // Prorrateo solo productos que bonifican
+            const prorrateoBonif = bonificadores.filter(b => (b.porcentaje || 0) > 0).reduce((acc, b) => acc + (b.coste || 0), 0) / 12;
+            // Costes
+            const cuotaProrrateada = cuotaBonif + prorrateoBonif;
+            const costeAnual = cuotaProrrateada * 12;
+            const costeTotal = cuotaProrrateada * plazo * 12;
+            return { cuotaProrrateada, costeAnual, costeTotal, plazo, tinMin, importe, prorrateoBonif };
+        }
+        function formatNumber(num) {
+            const parts = Number(num).toFixed(2).split('.');
+            let intPart = parts[0];
+            let decPart = parts[1];
+            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return intPart + ',' + decPart;
+        }
+        function renderTablaComparacion(ofertas) {
+            const tbody = document.getElementById('tabla-comparacion-body');
+            tbody.innerHTML = '';
+            ofertas.forEach(oferta => {
+                const { cuotaProrrateada, costeAnual, costeTotal } = calcularCostes(oferta);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-4 py-2">${oferta['Nombre del Prestamista'] || ''}</td>
+                    <td class="px-4 py-2 text-right">${formatNumber(cuotaProrrateada)}</td>
+                    <td class="px-4 py-2 text-right">${formatNumber(costeAnual)}</td>
+                    <td class="px-4 py-2 text-right">${formatNumber(costeTotal)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        function getAmortizaciones() {
+            const lista = [];
+            document.querySelectorAll('.amort-row').forEach(row => {
+                const mes = parseInt(row.querySelector('.amort-mes').value);
+                const cantidad = parseFloat(row.querySelector('.amort-cantidad').value);
+                if (!isNaN(mes) && mes > 0 && !isNaN(cantidad) && cantidad > 0) {
+                    lista.push({ mes, cantidad });
+                }
+            });
+            // Guardar en localStorage
+            localStorage.setItem('amortizaciones_simulacion', JSON.stringify(lista));
+            return lista.sort((a, b) => a.mes - b.mes);
+        }
+        function renderAmortizaciones(amortizaciones) {
+            const cont = document.getElementById('amortizaciones-lista');
+            cont.innerHTML = '';
+            amortizaciones.forEach((amort, idx) => {
+                const div = document.createElement('div');
+                div.className = 'amort-row flex gap-2 items-center';
+                div.innerHTML = `
+                    <label class="flex items-center gap-1 text-sm">Mes: <input type="number" min="1" class="amort-mes border rounded w-16 px-1 py-0.5" value="${amort.mes}" /></label>
+                    <label class="flex items-center gap-1 text-sm">Cantidad (€): <input type="number" min="1" class="amort-cantidad border rounded w-24 px-1 py-0.5" value="${amort.cantidad}" /></label>
+                    <button type="button" class="remove-amort px-2 py-1 bg-red-100 text-red-700 rounded">Eliminar</button>
+                `;
+                div.querySelector('.remove-amort').onclick = () => {
+                    amortizaciones.splice(idx, 1);
+                    renderAmortizaciones(amortizaciones);
+                    actualizarComparacion();
+                    // Guardar en localStorage
+                    localStorage.setItem('amortizaciones_simulacion', JSON.stringify(amortizaciones));
+                };
+                cont.appendChild(div);
+            });
+        }
+        function calcularAcumuladosConAmort(oferta, amortizaciones) {
+            const { plazo, tinMin, importe, prorrateoBonif } = calcularCostes(oferta);
+            const n = plazo * 12;
+            const i = tinMin / 100 / 12;
+            let saldo = importe;
+            let acumulado = 0;
+            const datos = [];
+            let amortIdx = 0;
+            for (let mes = 1; mes <= n; mes++) {
+                // Amortización anticipada
+                let amort = amortizaciones[amortIdx];
+                let penalizacion = 0;
+                if (amort && amort.mes === mes) {
+                    // Penalización según oferta
+                    let comision = 0;
+                    if (mes <= 120) {
+                        comision = Number(oferta['Comisión por amortización anticipada (10 primeros años) (%)'] || 0);
+                    } else {
+                        comision = Number(oferta['Comisión por amortización anticipada (resto de años) (%)'] || 0);
+                    }
+                    penalizacion = amort.cantidad * comision / 100;
+                    saldo -= amort.cantidad;
+                    amortIdx++;
+                }
+                // Recalcular cuota si hubo amortización
+                const cuotasRestantes = n - mes + 1;
+                const cuota = i === 0 ? saldo / cuotasRestantes : saldo * (i * Math.pow(1 + i, cuotasRestantes)) / (Math.pow(1 + i, cuotasRestantes) - 1);
+                const interes = saldo * i;
+                const capital = cuota - interes;
+                saldo -= capital;
+                acumulado += cuota + prorrateoBonif + penalizacion;
+                datos.push(acumulado);
+            }
+            return datos;
+        }
+        function renderGraficaComparacion(ofertas, amortizaciones) {
+            const ctx = document.getElementById('grafica-comparacion').getContext('2d');
+            const colores = [
+                '#1978e5', '#07883b', '#e67e22', '#e74c3c', '#8e44ad', '#16a085', '#f39c12', '#2c3e50', '#d35400', '#c0392b'
+            ];
+            const datasets = ofertas.map((oferta, idx) => {
+                const datos = calcularAcumuladosConAmort(oferta, amortizaciones);
+                return {
+                    label: oferta['Nombre del Prestamista'] || `Oferta ${idx + 1}`,
+                    data: datos,
+                    borderColor: colores[idx % colores.length],
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.1
+                };
+            });
+            // Líneas verticales de amortización
+            const verticalLines = amortizaciones.map(amort => ({
+                type: 'line',
+                xMin: amort.mes,
+                xMax: amort.mes,
+                borderColor: '#888',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                label: {
+                    display: true,
+                    content: `Amort. mes ${amort.mes}`,
+                    position: 'start',
+                    color: '#888',
+                    font: { weight: 'bold' }
+                }
+            }));
+            if (window.graficaComparacion) window.graficaComparacion.destroy();
+            window.graficaComparacion = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: Math.max(...datasets.map(d => d.data.length)) }, (_, i) => i + 1),
+                    datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true, position: 'top' },
+                        title: { display: false },
+                        annotation: { annotations: verticalLines }
+                    },
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: { title: { display: true, text: 'Mes' } },
+                        y: { title: { display: true, text: 'Coste acumulado (€)' }, beginAtZero: true }
+                    }
+                },
+                plugins: [window.ChartAnnotationPlugin]
+            });
+        }
+        function calcularTrasAmortizacion(oferta, amortizaciones) {
+            // Devuelve un array con los datos tras cada amortización
+            const resultados = [];
+            const { plazo, tinMin, importe, prorrateoBonif } = calcularCostes(oferta);
+            const n = plazo * 12;
+            const i = tinMin / 100 / 12;
+            let saldo = importe;
+            let mesActual = 1;
+            amortizaciones.forEach((amort, idx) => {
+                // Avanzar hasta el mes de la amortización
+                let cuotasRestantes = n - amort.mes + 1;
+                // Penalización
+                let comision = amort.mes <= 120 ? Number(oferta['Comisión por amortización anticipada (10 primeros años) (%)'] || 0) : Number(oferta['Comisión por amortización anticipada (resto de años) (%)'] || 0);
+                let penalizacion = amort.cantidad * comision / 100;
+                // Recalcular saldo tras amortización
+                saldo -= amort.cantidad;
+                // Nueva cuota tras amortización
+                const nuevaCuota = i === 0 ? saldo / cuotasRestantes : saldo * (i * Math.pow(1 + i, cuotasRestantes)) / (Math.pow(1 + i, cuotasRestantes) - 1);
+                const nuevaCuotaProrrateada = nuevaCuota + prorrateoBonif;
+                const nuevoCosteAnual = nuevaCuotaProrrateada * 12;
+                const nuevoCosteTotal = nuevaCuotaProrrateada * cuotasRestantes + penalizacion;
+                resultados.push({
+                    prestamista: oferta['Nombre del Prestamista'] || '',
+                    id: `${idx + 1}`,
+                    mes: amort.mes,
+                    cantidad: amort.cantidad,
+                    nuevaCuota: nuevaCuotaProrrateada,
+                    nuevoCosteAnual,
+                    nuevoCosteTotal
+                });
+                mesActual = amort.mes;
+            });
+            return resultados;
+        }
+        function renderTablaAmortizaciones(ofertas, amortizaciones) {
+            const cont = document.getElementById('tabla-amortizaciones-container');
+            if (!amortizaciones.length) {
+                cont.innerHTML = '';
+                return;
+            }
+            let html = `<table class="min-w-full border border-[#d0dbe7] bg-white rounded-lg mt-6">
+                <thead class="bg-slate-100">
+                    <tr>
+                        <th class="px-4 py-2">Prestamista</th>
+                        <th class="px-4 py-2">Amortización</th>
+                        <th class="px-4 py-2 text-right">Mes</th>
+                        <th class="px-4 py-2 text-right">Cantidad (€)</th>
+                        <th class="px-4 py-2 text-right">Nueva cuota mensual (€)</th>
+                        <th class="px-4 py-2 text-right">Nuevo coste anual (€)</th>
+                        <th class="px-4 py-2 text-right">Nuevo coste total (€)</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            ofertas.forEach(oferta => {
+                const resultados = calcularTrasAmortizacion(oferta, amortizaciones);
+                resultados.forEach(res => {
+                    html += `<tr>
+                        <td class="px-4 py-2">${res.prestamista}</td>
+                        <td class="px-4 py-2">${res.id}</td>
+                        <td class="px-4 py-2 text-right">${res.mes}</td>
+                        <td class="px-4 py-2 text-right">${formatNumber(res.cantidad)}</td>
+                        <td class="px-4 py-2 text-right">${formatNumber(res.nuevaCuota)}</td>
+                        <td class="px-4 py-2 text-right">${formatNumber(res.nuevoCosteAnual)}</td>
+                        <td class="px-4 py-2 text-right">${formatNumber(res.nuevoCosteTotal)}</td>
+                    </tr>`;
+                });
+            });
+            html += '</tbody></table>';
+            cont.innerHTML = html;
+        }
+        function actualizarComparacion() {
+            const ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+            const amortizaciones = getAmortizaciones();
+            renderTablaComparacion(ofertas);
+            renderGraficaComparacion(ofertas, amortizaciones);
+            renderTablaAmortizaciones(ofertas, amortizaciones);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+            if (ofertas.length === 0) {
+                document.getElementById('tabla-comparacion-body').innerHTML = '<tr><td colspan="4" class="text-center py-4 text-[#4e7097]">No hay ofertas guardadas.</td></tr>';
+                return;
+            }
+            // Amortizaciones persistentes
+            let amortizaciones = [];
+            try {
+                amortizaciones = JSON.parse(localStorage.getItem('amortizaciones_simulacion')) || [];
+            } catch { amortizaciones = []; }
+            renderAmortizaciones(amortizaciones);
+            document.getElementById('add-amortizacion').onclick = function () {
+                amortizaciones.push({ mes: '', cantidad: '' });
+                renderAmortizaciones(amortizaciones);
+                localStorage.setItem('amortizaciones_simulacion', JSON.stringify(amortizaciones));
+            };
+            document.getElementById('form-amortizaciones').onchange = function () {
+                actualizarComparacion();
+                // Guardar en localStorage
+                localStorage.setItem('amortizaciones_simulacion', JSON.stringify(getAmortizaciones()));
+            };
+            document.getElementById('form-amortizaciones').oninput = function () {
+                actualizarComparacion();
+                // Guardar en localStorage
+                localStorage.setItem('amortizaciones_simulacion', JSON.stringify(getAmortizaciones()));
+            };
+            // Inicializar tabla y gráfica
+            actualizarComparacion();
+            // Resaltar menú
+            const path = window.location.pathname;
+            if (path.endsWith('comparacion.html')) {
+                document.querySelector('.MENU-COMPARACION').style.color = '#1978e5';
+                document.querySelector('.MENU-COMPARACION').style.fontWeight = 'bold';
+            }
+        });
+        // Chart.js annotation plugin loader
+        window.ChartAnnotationPlugin = {
+            id: 'annotation',
+            afterDraw(chart) {
+                if (!chart.options.plugins.annotation || !chart.options.plugins.annotation.annotations) return;
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+                const yAxis = chart.scales.y;
+                chart.options.plugins.annotation.annotations.forEach(line => {
+                    const x = xAxis.getPixelForValue(line.xMin);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.setLineDash(line.borderDash);
+                    ctx.moveTo(x, yAxis.top);
+                    ctx.lineTo(x, yAxis.bottom);
+                    ctx.strokeStyle = line.borderColor;
+                    ctx.lineWidth = line.borderWidth;
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.restore();
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>
