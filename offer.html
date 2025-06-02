@@ -1,0 +1,353 @@
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden"
+        style='font-family: Inter, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf3] px-10 py-3">
+                <div class="flex items-center gap-4 text-[#0e141b]">
+                    <div class="size-4">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-[#0e141b] text-lg font-bold leading-tight tracking-[-0.015em]">MortgageFinder</h2>
+                </div>
+                <div class="flex flex-1 justify-end gap-8">
+                    <div class="flex items-center gap-9">
+                        <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-INICIO"
+                            href="index.html">Inicio</a>
+                        <a class="text-[#0e141b] text-sm font-medium leading-normal MENU-OFERTAS"
+                            href="offers.html">Ofertas</a>
+                    </div>
+                    <button
+                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#e7edf3] text-[#0e141b] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+                        <div class="text-[#0e141b]" data-icon="Question" data-size="20px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                                viewBox="0 0 256 256">
+                                <path
+                                    d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z">
+                                </path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDM2iGQbh5BBY0mwykbBJDdoaPRXB93XbrTlyEsV6iwwJ91Cbh9qJxyr3GGEvwX4cTz89Z-HTkvyGKbPub3gpnHpKWmMPMBFXHMCbf4zBHGGbfSsWER2e_jT9CX4fNtvIo-aA_eo5j-0lzL288CIm7CFIZ8eAvfVq8kxL-3_1TylguNUV93D-MZxrzzDlodKilgvgyLQwC5tXLq2LYCFQFoHPgU7fS9sBURY8lwQshHvfjZrXbUUvBlKgckejPNtx_cCouLdYGok7hQ");'>
+                    </div>
+                </div>
+            </header>
+            <div class="px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-wrap gap-2 p-4">
+                        <a class="text-[#4e7097] text-base font-medium leading-normal" href="#">Offers</a>
+                        <span class="text-[#4e7097] text-base font-medium leading-normal">/</span>
+                        <span class="text-[#0e141b] text-base font-medium leading-normal">Offer Details</span>
+                    </div>
+                    <div class="flex flex-wrap justify-between gap-3 p-4">
+                        <div class="flex min-w-72 flex-col gap-3">
+                            <p class="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">
+                                Detalles de la oferta</p>
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Review the specifics of this
+                                mortgage offer.</p>
+                        </div>
+                    </div>
+                    <h2 class="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                        Offer Summary</h2>
+                    <div class="p-4">
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Lender</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">First National Bank
+                            </p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Loan Type</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">Fixed-Rate</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Interest Rate</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">4.5%</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Loan Term</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">30 years</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Loan Amount</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$300,000</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Property Value</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$400,000</p>
+                        </div>
+                    </div>
+                    <h2 class="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                        Payment Breakdown</h2>
+                    <div class="p-4">
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Principal &amp; Interest</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$1,520</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Property Taxes</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$300</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">Homeowner's Insurance</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$120</p>
+                        </div>
+                        <div class="flex justify-between gap-x-6 py-2">
+                            <p class="text-[#4e7097] text-sm font-normal leading-normal">HOA Fees (if applicable)</p>
+                            <p class="text-[#0e141b] text-sm font-normal leading-normal text-right">$50</p>
+                        </div>
+                    </div>
+                    <h2 class="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                        Total Costs Over Time</h2>
+                    <div class="flex flex-wrap gap-4 px-4 py-6">
+                        <div class="flex min-w-72 flex-1 flex-col gap-2 rounded-lg border border-[#d0dbe7] p-6">
+                            <p class="text-[#0e141b] text-base font-medium leading-normal">Total Interest Paid</p>
+                            <p class="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight truncate">
+                                $160,000</p>
+                            <div class="flex gap-1">
+                                <p class="text-[#4e7097] text-base font-normal leading-normal">30 Years</p>
+                                <p class="text-[#07883b] text-base font-medium leading-normal">+10%</p>
+                            </div>
+                            <div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+                                <svg width="100%" height="148" viewBox="-3 0 478 150" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                    <path
+                                        d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                                        fill="url(#paint0_linear_1131_5935)"></path>
+                                    <path
+                                        d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                                        stroke="#4e7097" stroke-width="3" stroke-linecap="round"></path>
+                                    <defs>
+                                        <linearGradient id="paint0_linear_1131_5935" x1="236" y1="1" x2="236" y2="149"
+                                            gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#e7edf3"></stop>
+                                            <stop offset="1" stop-color="#e7edf3" stop-opacity="0"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div class="flex justify-around">
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 1</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 5</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 10</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 15</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 20</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 25</p>
+                                    <p class="text-[#4e7097] text-[13px] font-bold leading-normal tracking-[0.015em]">
+                                        Year 30</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Collapsable para la tabla de amortización -->
+                    <div class="px-4 py-3">
+                        <button id="toggle-amort"
+                            class="bg-[#e7edf3] text-[#0e141b] rounded-lg px-4 py-2 font-medium mb-2">Mostrar/Ocultar
+                            tabla de amortización</button>
+                        <div id="amort-container" style="display:none;"></div>
+                    </div>
+                    <div class='flex justify-center mt-4 gap-4'>
+                        <button id='eliminar-oferta'
+                            class='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg shadow'>Eliminar
+                            oferta</button>
+                        <button id='editar-oferta'
+                            class='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow'>Editar
+                            oferta</button>
+                    </div>
+                </div>
+            </div>
+            <footer class="flex justify-center">
+                <div class="flex max-w-[960px] flex-1 flex-col">
+                    <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+                        <div
+                            class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+                            <a class="text-[#4e7097] text-base font-normal leading-normal min-w-40" href="#">About</a>
+                            <a class="text-[#4e7097] text-base font-normal leading-normal min-w-40" href="#">Contact</a>
+                            <a class="text-[#4e7097] text-base font-normal leading-normal min-w-40" href="#">Privacy
+                                Policy</a>
+                        </div>
+                        <p class="text-[#4e7097] text-base font-normal leading-normal">@2024 MortgageFinder. All rights
+                            reserved.</p>
+                    </footer>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script>
+        // Utilidad para obtener parámetros de la URL
+        function getParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+        // Cálculo de cuota y tabla de amortización (método francés)
+        function calcularAmortizacion(importe, tin, plazoAnios) {
+            const n = plazoAnios * 12;
+            const i = tin / 100 / 12;
+            const cuota = i === 0 ? importe / n : importe * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+            let saldo = importe;
+            const tabla = [];
+            for (let mes = 1; mes <= n; mes++) {
+                const interes = saldo * i;
+                const capital = cuota - interes;
+                saldo -= capital;
+                tabla.push({
+                    mes,
+                    cuota: cuota,
+                    interes: interes,
+                    capital: capital,
+                    pendiente: saldo > 0 ? saldo : 0
+                });
+            }
+            return tabla;
+        }
+        // Renderizar tabla de amortización
+        function renderTabla(tabla, container) {
+            let html = `<table class='w-full text-xs border'><thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Pendiente</th></tr></thead><tbody>`;
+            tabla.forEach(row => {
+                html += `<tr><td>${row.mes}</td><td>${row.cuota.toFixed(2)}</td><td>${row.interes.toFixed(2)}</td><td>${row.capital.toFixed(2)}</td><td>${row.pendiente.toFixed(2)}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+        // Lógica principal
+        window.onload = function () {
+            const idx = getParam('idx');
+            const ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+            const oferta = ofertas[idx];
+            if (!oferta) return;
+            // Mostrar info principal y bonificadores
+            const cont = document.querySelector('.layout-content-container');
+            const bonificadores = oferta.bonificadores || [];
+            // Tabla de productos bonificadores
+            let bonifTable = `<table class='w-full text-sm border mb-2'><thead><tr class='bg-slate-100'><th class='p-2'>Seleccionar</th><th class='p-2'>Concepto</th><th class='p-2 text-right'>Coste anual (€)</th><th class='p-2 text-right'>Bonifica (%)</th></tr></thead><tbody>`;
+            bonificadores.forEach((b, i) => {
+                bonifTable += `<tr><td class='text-center'><input type='checkbox' class='bonif-cb' data-bonif='${i}' checked></td><td class='p-2'>${b.concepto}</td><td class='p-2 text-right'>${b.coste.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td><td class='p-2 text-right'>${b.porcentaje.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td></tr>`;
+            });
+            bonifTable += bonificadores.length ? '</tbody></table>' : '<tr><td colspan="4"><i>No hay productos asociados</i></td></tr></tbody></table>';
+            // Presentación principal
+            cont.innerHTML = `
+                <div class='max-w-2xl mx-auto bg-white rounded-lg shadow p-8 mt-8'>
+                    <h2 class='text-2xl font-bold mb-4 text-center flex items-center justify-center gap-4'>
+                        Oferta de ${oferta['Nombre del Prestamista'] || ''}
+                        <button id='editar-oferta' title='Editar oferta' class='ml-2 p-2 rounded-full hover:bg-blue-100 text-blue-600' style='line-height:0;'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' viewBox='0 0 24 24'><path stroke='currentColor' stroke-width='2' d='M16.475 5.408a2.317 2.317 0 1 1 3.277 3.277L8.5 19.937l-4.243.707.707-4.243L16.475 5.408Z'/></svg>
+                        </button>
+                        <button id='eliminar-oferta' title='Eliminar oferta' class='ml-1 p-2 rounded-full hover:bg-red-100 text-red-600' style='line-height:0;'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' viewBox='0 0 24 24'><path stroke='currentColor' stroke-width='2' d='M6 7h12M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7h12Z'/></svg>
+                        </button>
+                    </h2>
+                    <div class='mb-2'><b>Importe:</b> ${parseFloat(oferta['Importe del Préstamo'] || 0).toLocaleString('es-ES')} €</div>
+                    <div class='mb-2'><b>Plazo:</b> ${oferta['Plazo del Préstamo (Años)'] || ''} años</div>
+                    <div class='mb-2'><b>TIN base:</b> ${parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%</div>
+                    <div class='mb-2'><b>Comentarios:</b> ${oferta['Comentarios'] || ''}</div>
+                    <div class='mb-2'><b>Productos bonificadores:</b>${bonifTable}</div>
+                    <div class='mb-2'><b>TIN bonificado máximo:</b> <span id='tin-max'></span>%</div>
+                    <div class='mb-2'><b>TIN bonificado dinámico:</b> <span id='tin-din'></span>%</div>
+                    <div class='mb-2'><b>Cuota mensual estimada:</b> <span id='cuota-din'></span> €</div>
+                    <div class='mb-2'><b>Cuota mensual prorrateada (con gastos seleccionados):</b> <span id='cuota-prorrateada'></span> €</div>
+                    <div class='mb-2'><b>Tabla de amortización:</b></div>
+                    <div class='px-4 py-3'><button id='toggle-amort' class='bg-[#e7edf3] text-[#0e141b] rounded-lg px-4 py-2 font-medium mb-2'>Mostrar/Ocultar tabla de amortización</button><div id='amort-container' style='display:none;'></div></div>
+                </div>`;
+            // Cálculo de TINs
+            const tinBase = parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0);
+            const bonifMax = bonificadores.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
+            const tinMax = (tinBase - bonifMax).toFixed(2);
+            document.getElementById('tin-max').innerText = tinMax.replace('.', ',');
+            // Dinámico
+            function actualizarDinamico() {
+                let bonifSum = 0;
+                let gastosSum = 0;
+                document.querySelectorAll('.bonif-cb').forEach((c, i) => {
+                    if (c.checked) {
+                        bonifSum += bonificadores[i].porcentaje || 0;
+                        gastosSum += bonificadores[i].coste || 0;
+                    }
+                });
+                const tinDin = (tinBase - bonifSum).toFixed(2);
+                document.getElementById('tin-din').innerText = tinDin.replace('.', ',');
+                // Calcular cuota y tabla
+                const importe = parseFloat(oferta['Importe del Préstamo'] || 0);
+                const plazo = parseInt(oferta['Plazo del Préstamo (Años)'] || 0);
+                const tabla = calcularAmortizacion(importe, tinDin, plazo);
+                document.getElementById('cuota-din').innerText = tabla.length ? tabla[0].cuota.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0,00';
+                // Cuota prorrateada
+                const cuotaProrrateada = tabla.length ? tabla[0].cuota + (gastosSum / 12) : 0;
+                document.getElementById('cuota-prorrateada').innerText = cuotaProrrateada.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                // Render tabla si está visible
+                if (document.getElementById('amort-container').style.display !== 'none') {
+                    renderTabla(tabla, document.getElementById('amort-container'));
+                }
+            }
+            document.querySelectorAll('.bonif-cb').forEach(cb => cb.addEventListener('change', actualizarDinamico));
+            // Mostrar/ocultar tabla
+            document.getElementById('toggle-amort').onclick = function () {
+                const amortDiv = document.getElementById('amort-container');
+                if (amortDiv.style.display === 'none') {
+                    // Calcular tabla con TIN dinámico actual
+                    let bonifSum = 0;
+                    document.querySelectorAll('.bonif-cb').forEach((c, i) => { if (c.checked) bonifSum += bonificadores[i].porcentaje || 0; });
+                    const tinDin = (tinBase - bonifSum).toFixed(2);
+                    const importe = parseFloat(oferta['Importe del Préstamo'] || 0);
+                    const plazo = parseInt(oferta['Plazo del Préstamo (Años)'] || 0);
+                    const tabla = calcularAmortizacion(importe, tinDin, plazo);
+                    renderTabla(tabla, amortDiv);
+                    amortDiv.style.display = '';
+                } else {
+                    amortDiv.style.display = 'none';
+                }
+            };
+            // Inicializar valores
+            actualizarDinamico();
+            // Botón eliminar oferta
+            document.getElementById('eliminar-oferta').onclick = function () {
+                if (confirm('¿Seguro que quieres eliminar esta oferta?')) {
+                    const idx = getParam('idx');
+                    let ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+                    ofertas.splice(idx, 1);
+                    localStorage.setItem('ofertas', JSON.stringify(ofertas));
+                    window.location.href = 'offers.html';
+                }
+            };
+            // Botón editar oferta
+            document.getElementById('editar-oferta').onclick = function () {
+                const idx = getParam('idx');
+                window.location.href = `create.html?edit=${idx}`;
+            };
+        }
+            // Resaltar el menú activo
+            (function () {
+                const path = window.location.pathname;
+                if (path.endsWith('index.html') || path === '/' || path === '') {
+                    document.querySelector('.MENU-INICIO').style.color = '#1978e5';
+                    document.querySelector('.MENU-INICIO').style.fontWeight = 'bold';
+                } else if (path.endsWith('offers.html')) {
+                    document.querySelector('.MENU-OFERTAS').style.color = '#1978e5';
+                    document.querySelector('.MENU-OFERTAS').style.fontWeight = 'bold';
+                }
+            })();
+    </script>
+</body>
+
+</html>
