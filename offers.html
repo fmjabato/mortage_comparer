@@ -79,6 +79,8 @@
                                         <th class="text-right">Coste mensual prorrateado bonificado (€)</th>
                                         <th class="text-right">Coste anual total bonificado (€)</th>
                                         <th class="text-right">Coste total bonificado (€)</th>
+                                        <th class="text-right">Comisión amort. 10 primeros años (%)</th>
+                                        <th class="text-right">Comisión amort. resto años (%)</th>
                                         <th>Comentarios</th>
                                     </tr>
                                 </thead>
@@ -192,6 +194,8 @@
                     <td class="text-right">${formatNumber(cuotaBonif + prorrateoBonif)}</td>
                     <td class="text-right">${formatNumber(costeAnualBonif)}</td>
                     <td class="text-right">${formatNumber(costeTotalBonif)}</td>
+                    <td class="text-right">${formatNumber(Number(oferta['Comisión por amortización anticipada (10 primeros años) (%)'] || 0))}</td>
+                    <td class="text-right">${formatNumber(Number(oferta['Comisión por amortización anticipada (resto de años) (%)'] || 0))}</td>
                     <td class="comentario-cell">${oferta['Comentarios'] || ''}</td>
                 `;
                 tbody.appendChild(row);

@@ -262,6 +262,8 @@
                     <div class='mb-2'><b>Importe:</b> ${parseFloat(oferta['Importe del Préstamo'] || 0).toLocaleString('es-ES')} €</div>
                     <div class='mb-2'><b>Plazo:</b> ${oferta['Plazo del Préstamo (Años)'] || ''} años</div>
                     <div class='mb-2'><b>TIN base:</b> ${parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%</div>
+                    <div class='mb-2'><b>Comisión amortización anticipada 10 primeros años:</b> ${Number(oferta['Comisión por amortización anticipada (10 primeros años) (%)'] || 0).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%</div>
+                    <div class='mb-2'><b>Comisión amortización anticipada resto de años:</b> ${Number(oferta['Comisión por amortización anticipada (resto de años) (%)'] || 0).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%</div>
                     <div class='mb-2'><b>Comentarios:</b> ${oferta['Comentarios'] || ''}</div>
                     <div class='mb-2'><b>Productos bonificadores:</b>${bonifTable}</div>
                     <div class='mb-2'><b>TIN bonificado máximo:</b> <span id='tin-max'></span>%</div>
