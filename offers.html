@@ -83,7 +83,6 @@
                                         <th class="text-right">Coste total bonificado (€)</th>
                                         <th class="text-right">Comisión amort. 10 primeros años (%)</th>
                                         <th class="text-right">Comisión amort. resto años (%)</th>
-                                        <th>Comentarios</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ofertas-tbody">
@@ -164,7 +163,7 @@
             const tbody = document.getElementById('ofertas-tbody');
             tbody.innerHTML = '';
             if (ofertas.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="12" class="text-center py-4 text-[#4e7097]">No hay ofertas guardadas.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" class="text-center py-4 text-[#4e7097]">No hay ofertas guardadas.</td></tr>';
                 return;
             }
             ofertas.forEach((oferta, idx) => {
@@ -198,7 +197,6 @@
                     <td class="text-right">${formatNumber(costeTotalBonif)}</td>
                     <td class="text-right">${formatNumber(Number(oferta['Comisión por amortización anticipada (10 primeros años) (%)'] || 0))}</td>
                     <td class="text-right">${formatNumber(Number(oferta['Comisión por amortización anticipada (resto de años) (%)'] || 0))}</td>
-                    <td class="comentario-cell">${oferta['Comentarios'] || ''}</td>
                 `;
                 tbody.appendChild(row);
             });
