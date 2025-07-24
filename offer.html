@@ -240,13 +240,19 @@
             const ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
             const oferta = ofertas[idx];
             if (!oferta) return;
+            // Inicializar campo 'activo' si no existe
+            if (oferta.bonificadores) {
+                oferta.bonificadores.forEach(b => {
+                    if (typeof b.activo === 'undefined') b.activo = true;
+                });
+            }
             // Mostrar info principal y bonificadores
             const cont = document.querySelector('.layout-content-container');
             const bonificadores = oferta.bonificadores || [];
             // Tabla de productos bonificadores
             let bonifTable = `<table class='w-full text-sm border mb-2'><thead><tr class='bg-slate-100'><th class='p-2'>Seleccionar</th><th class='p-2'>Concepto</th><th class='p-2 text-right'>Coste anual (€)</th><th class='p-2 text-right'>Bonifica (%)</th></tr></thead><tbody>`;
             bonificadores.forEach((b, i) => {
-                bonifTable += `<tr><td class='text-center'><input type='checkbox' class='bonif-cb' data-bonif='${i}' checked></td><td class='p-2'>${b.concepto}</td><td class='p-2 text-right'>${b.coste.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td><td class='p-2 text-right'>${b.porcentaje.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td></tr>`;
+                bonifTable += `<tr><td class='text-center'><input type='checkbox' class='bonif-cb' data-bonif='${i}' ${b.activo !== false ? 'checked' : ''}></td><td class='p-2'>${b.concepto}</td><td class='p-2 text-right'>${b.coste.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td><td class='p-2 text-right'>${b.porcentaje.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td></tr>`;
             });
             bonifTable += bonificadores.length ? '</tbody></table>' : '<tr><td colspan="4"><i>No hay productos asociados</i></td></tr></tbody></table>';
             // Presentación principal
@@ -285,11 +291,16 @@
                 let bonifSum = 0;
                 let gastosSum = 0;
                 document.querySelectorAll('.bonif-cb').forEach((c, i) => {
+                    // Actualizar campo activo
+                    bonificadores[i].activo = c.checked;
                     if (c.checked) {
                         bonifSum += bonificadores[i].porcentaje || 0;
                         gastosSum += bonificadores[i].coste || 0;
                     }
                 });
+                // Guardar selección en localStorage
+                ofertas[idx].bonificadores = bonificadores;
+                localStorage.setItem('ofertas', JSON.stringify(ofertas));
                 const tinDin = (tinBase - bonifSum).toFixed(2);
                 document.getElementById('tin-din').innerText = tinDin.replace('.', ',');
                 // Calcular cuota y tabla
