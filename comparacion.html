@@ -77,12 +77,14 @@
             const plazo = parseInt(oferta['Plazo del Préstamo (Años)'] || 0);
             const tinBase = parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0);
             const bonificadores = oferta.bonificadores || [];
-            const bonifMax = bonificadores.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
+            // Solo bonificadores activos
+            const bonificadoresActivos = bonificadores.filter(b => b.activo !== false);
+            const bonifMax = bonificadoresActivos.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
             const tinMin = (tinBase - bonifMax);
             // Cuota bonificada
             const cuotaBonif = cuotaMensual(importe, tinMin, plazo);
-            // Prorrateo solo productos que bonifican
-            const prorrateoBonif = bonificadores.filter(b => (b.porcentaje || 0) > 0).reduce((acc, b) => acc + (b.coste || 0), 0) / 12;
+            // Prorrateo solo productos activos
+            const prorrateoBonif = bonificadoresActivos.reduce((acc, b) => acc + (b.coste || 0), 0) / 12;
             // Costes
             const cuotaProrrateada = cuotaBonif + prorrateoBonif;
             const costeAnual = cuotaProrrateada * 12;

@@ -144,6 +144,12 @@
         </div>
     </div>
     <script>
+        // Forzar recarga real si se vuelve con el botón atrás
+        document.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
         function cuotaMensual(importe, tin, plazoAnios) {
             const n = plazoAnios * 12;
             const i = tin / 100 / 12;
@@ -171,13 +177,15 @@
                 const plazo = parseInt(oferta['Plazo del Préstamo (Años)'] || 0);
                 const tinBase = parseFloat(oferta['TIN base (%)'] || oferta['Tasa de Interés (%)'] || 0);
                 const bonificadores = oferta.bonificadores || [];
-                const bonifMax = bonificadores.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
+                // Solo bonificadores activos
+                const bonificadoresActivos = bonificadores.filter(b => b.activo !== false);
+                const bonifMax = bonificadoresActivos.reduce((acc, b) => acc + (b.porcentaje || 0), 0);
                 const tinMin = (tinBase - bonifMax);
                 // Cuotas
                 const cuotaBase = cuotaMensual(importe, tinBase, plazo);
                 const cuotaBonif = cuotaMensual(importe, tinMin, plazo);
-                // Prorrateo solo productos que bonifican
-                const prorrateoBonif = bonificadores.filter(b => (b.porcentaje || 0) > 0).reduce((acc, b) => acc + (b.coste || 0), 0) / 12;
+                // Prorrateo solo productos activos
+                const prorrateoBonif = bonificadoresActivos.reduce((acc, b) => acc + (b.coste || 0), 0) / 12;
                 // Costes anuales y totales bonificados
                 const costeAnualBonif = (cuotaBonif + prorrateoBonif) * 12;
                 const n = plazo * 12;

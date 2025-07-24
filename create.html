@@ -193,6 +193,7 @@
       localStorage.setItem('ofertas', JSON.stringify(ofertas));
       alert(editIdx !== null ? '¡Oferta actualizada con éxito!' : '¡Oferta guardada con éxito!');
       window.location.href = 'offers.html';
+      setTimeout(function () { location.reload(); }, 100);
     }
     window.onload = function () {
       // Modo edición: cargar datos si edit
